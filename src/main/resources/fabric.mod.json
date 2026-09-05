@@ -1,0 +1,35 @@
+{
+	"schemaVersion": 1,
+	"id": "obsidian-client",
+	"version": "${version}",
+	"name": "Obsidian Client",
+	"description": "A modern, performance-focused client-side utility mod for Minecraft Java Edition.",
+	"authors": [
+		"Obsidian Client Contributors"
+	],
+	"contact": {
+		"homepage": "https://example.com/obsidian-client",
+		"sources": "https://example.com/obsidian-client"
+	},
+	"license": "MIT",
+	"environment": "client",
+	"entrypoints": {
+		"main": [
+			"com.obsidian.client.ObsidianClientMod"
+		],
+		"client": [
+			"com.obsidian.client.client.ObsidianClientModClient"
+		]
+	},
+	"mixins": [],
+	"depends": {
+		"fabricloader": ">=0.16.10",
+		"minecraft": ">=1.21.4 <=1.21.11",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"custom": {
+		"obsidian-client:min_supported_version": "1.21.4",
+		"obsidian-client:max_supported_version": "1.21.11"
+	}
+}

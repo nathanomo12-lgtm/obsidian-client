@@ -1,0 +1,13 @@
+{
+  "key.category.obsidian-client.modules": "Obsidian Client",
+  "key.obsidian-client.example": "Toggle Example Module",
+  "key.obsidian-client.click_gui": "Open Obsidian Client Menu",
+  "key.obsidian-client.keystrokes": "Toggle Keystrokes",
+  "key.obsidian-client.cps_counter": "Toggle CPS Counter",
+  "key.obsidian-client.fps_display": "Toggle FPS Display",
+  "key.obsidian-client.ping_display": "Toggle Ping Display",
+  "key.obsidian-client.toggle_sprint": "Toggle Sprint",
+  "key.obsidian-client.toggle_sneak": "Toggle Sneak",
+  "key.obsidian-client.coordinates": "Toggle Coordinates",
+  "key.obsidian-client.armor_status": "Toggle Armor Status"
+}
