@@ -1,8 +1,9 @@
 package com.obsidian.client.module.impl;
 
+import com.obsidian.client.module.ComplianceTier;
 import com.obsidian.client.module.Module;
 import com.obsidian.client.module.ModuleCategory;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import org.lwjgl.glfw.GLFW;
 
 /**
@@ -12,14 +13,14 @@ import org.lwjgl.glfw.GLFW;
 public class ToggleSneakModule extends Module {
 
 	public ToggleSneakModule() {
-		super("Toggle Sneak", "Sneaks continuously without holding the key.", ModuleCategory.MOVEMENT, GLFW.GLFW_KEY_UNKNOWN);
+		super("Toggle Sneak", "Sneaks continuously without holding the key.", ModuleCategory.MOVEMENT, ComplianceTier.SAFE, GLFW.GLFW_KEY_UNKNOWN);
 	}
 
 	@Override
 	public void onTick() {
-		MinecraftClient client = MinecraftClient.getInstance();
-		if (client.player != null && client.currentScreen == null) {
-			client.options.sneakKey.setPressed(true);
+		Minecraft client = Minecraft.getInstance();
+		if (client.player != null && client.screen == null) {
+			client.options.keyShift.setDown(true);
 		}
 	}
 }

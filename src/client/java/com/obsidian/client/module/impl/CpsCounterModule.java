@@ -1,14 +1,15 @@
 package com.obsidian.client.module.impl;
 
 import com.obsidian.client.gui.theme.Theme;
+import com.obsidian.client.module.ComplianceTier;
 import com.obsidian.client.module.Module;
 import com.obsidian.client.module.ModuleCategory;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 
 /**
  * Clicks-per-second counter for the left and right mouse buttons, sampled
@@ -24,7 +25,7 @@ public class CpsCounterModule extends Module {
 	private boolean lastRightDown;
 
 	public CpsCounterModule() {
-		super("CPS Counter", "Displays left/right click rate.", ModuleCategory.COMBAT, GLFW.GLFW_KEY_UNKNOWN);
+		super("CPS Counter", "Displays left/right click rate.", ModuleCategory.COMBAT, ComplianceTier.SAFE, GLFW.GLFW_KEY_UNKNOWN);
 	}
 
 	@Override
@@ -36,18 +37,18 @@ public class CpsCounterModule extends Module {
 	}
 
 	@Override
-	public void onRender(DrawContext context, float tickDelta) {
-		MinecraftClient client = MinecraftClient.getInstance();
+	public void onRender(GuiGraphics context, float tickDelta) {
+		Minecraft client = Minecraft.getInstance();
 		if (client.player == null) {
 			return;
 		}
 
-		long handle = client.getWindow().getHandle();
+		long handle = client.getWindow().handle();
 		long now = System.currentTimeMillis();
 
-		boolean leftDown = client.currentScreen == null
+		boolean leftDown = client.screen == null
 				&& GLFW.glfwGetMouseButton(handle, GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS;
-		boolean rightDown = client.currentScreen == null
+		boolean rightDown = client.screen == null
 				&& GLFW.glfwGetMouseButton(handle, GLFW.GLFW_MOUSE_BUTTON_RIGHT) == GLFW.GLFW_PRESS;
 
 		if (leftDown && !lastLeftDown) {
@@ -62,14 +63,14 @@ public class CpsCounterModule extends Module {
 		prune(leftClicks, now);
 		prune(rightClicks, now);
 
-		if (client.currentScreen != null) {
+		if (client.screen != null) {
 			return;
 		}
 
 		String text = "CPS: " + leftClicks.size() + " / " + rightClicks.size();
-		int x = client.getWindow().getScaledWidth() / 2 - client.textRenderer.getWidth(text) / 2;
-		int y = client.getWindow().getScaledHeight() / 2 + 20;
-		context.drawTextWithShadow(client.textRenderer, text, x, y, Theme.textPrimary());
+		int x = client.getWindow().getGuiScaledWidth() / 2 - client.font.width(text) / 2;
+		int y = client.getWindow().getGuiScaledHeight() / 2 + 20;
+		context.drawString(client.font, text, x, y, Theme.textPrimary());
 	}
 
 	private static void prune(Deque<Long> timestamps, long now) {
