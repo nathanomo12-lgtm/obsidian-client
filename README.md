@@ -111,6 +111,43 @@ doc): booleans toggle, enums advance to the next constant, colors step through a
   (settings: Shape — Cross/Dot/Circle/T, Color, Size). Implemented by wrapping the vanilla
   crosshair via `HudElementRegistry#replaceElement`, so disabling it instantly restores stock
   rendering with no extra state to track.
+- **Health Display** (Player, SAFE) — numeric current/max health, color-coded at low health.
+- **Hunger Display** (Player, SAFE) — numeric food level and saturation.
+- **XP Tracker** (Utility, SAFE) — experience level and percent progress to the next level.
+- **Fall Distance** (Utility, SAFE) — current fall distance while airborne, informational only
+  (does not suppress or reduce fall damage).
+- **Light Level** (Utility, SAFE) — block light level at your feet, color-coded as a rough
+  mob-spawn safety hint (8+ is generally safe).
+- **Biome Display** (Utility, SAFE) — name of the biome you're currently standing in.
+- **Day Time Tracker** (Utility, SAFE) — in-game day count, day/night status, and time until the
+  next transition; pairs with Light Level to anticipate hostile mob spawn windows.
+- **Speed Display** (Utility, SAFE) — horizontal movement speed in blocks/second.
+- **Session Timer** (Utility, SAFE) — elapsed playtime since the module was enabled (`h:mm:ss`).
+- **Death Counter** (Utility, SAFE) — counts death-screen appearances since enabled; purely
+  observational, never affects respawn/health/damage.
+- **Distance Traveled** (Utility, SAFE) — cumulative blocks moved since enabled.
+- **Target Block Info** (Utility, SAFE) — name, position, and face of the block you're looking
+  at, reusing vanilla's own `Minecraft#hitResult` rather than a new raycast.
+- **Held Item Durability** (Player, SAFE) — remaining durability of the main-hand item, as a
+  warning note (not automation) to swap gear before it breaks.
+- **Movement Status** (Movement, SAFE) — compact readout of sprinting/sneaking/swimming/gliding.
+- **Auto Sneak While Mining** (Movement, SAFE) — holds sneak automatically while breaking a
+  block and releases it the instant mining stops, an edge-safety QoL aid rather than general
+  input automation.
+- **Attack Cooldown** (Combat, SAFE) — bar above the crosshair driven by vanilla's own
+  `Player#getAttackStrengthScale`; a rendering aid only, it never changes cooldown timing,
+  damage, or hit registration.
+- **Hit Flash** (Combat, SAFE) — brief accent-colored screen-edge flash when your own attack
+  lands, fed by the same `AttackEntityCallback` hook as Combo Counter (always returns `PASS`).
+- **Hit Sound Cue** (Combat, SAFE) — subtle client-local sound cue on landing your own attack,
+  played via `ClientLevel#playLocalSound` (never broadcast, never gameplay-affecting).
+- **Low Health Warning** (Render, SAFE, setting: Threshold) — pulsing red screen-edge tint while
+  health stays at or below a configurable threshold; distinct from vanilla's one-shot damage
+  flash since it persists for as long as health remains low.
+- **Compass Bar** (Utility, SAFE) — graphical heading strip across the top of the screen showing
+  nearby cardinal/intercardinal directions, using the same yaw convention as Coordinates.
+- **FPS Min Max** (Performance, SAFE) — rolling one-second min/max FPS, a cheap "1% low"-style
+  companion to FPS Display for spotting stutters an average would hide.
 
 All HUD modules currently use fixed default positions (no drag-and-drop repositioning yet); a
 HUD edit/reposition overlay is a natural next step.

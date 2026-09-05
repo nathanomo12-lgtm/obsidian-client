@@ -6,17 +6,38 @@ import com.obsidian.client.config.ConfigManager;
 import com.obsidian.client.gui.ClickGuiScreen;
 import com.obsidian.client.module.ModuleManager;
 import com.obsidian.client.module.impl.ArmorDurabilityModule;
+import com.obsidian.client.module.impl.AttackCooldownModule;
+import com.obsidian.client.module.impl.AutoSneakWhileMiningModule;
+import com.obsidian.client.module.impl.BiomeDisplayModule;
 import com.obsidian.client.module.impl.ClockModule;
 import com.obsidian.client.module.impl.ComboCounterModule;
+import com.obsidian.client.module.impl.CompassBarModule;
 import com.obsidian.client.module.impl.CoordinatesModule;
 import com.obsidian.client.module.impl.CpsCounterModule;
 import com.obsidian.client.module.impl.CrosshairModule;
+import com.obsidian.client.module.impl.DayTimeTrackerModule;
+import com.obsidian.client.module.impl.DeathCounterModule;
+import com.obsidian.client.module.impl.DistanceTraveledModule;
 import com.obsidian.client.module.impl.ExampleModule;
+import com.obsidian.client.module.impl.ExperienceTrackerModule;
+import com.obsidian.client.module.impl.FallDistanceModule;
 import com.obsidian.client.module.impl.FpsDisplayModule;
+import com.obsidian.client.module.impl.FpsMinMaxModule;
+import com.obsidian.client.module.impl.HealthDisplayModule;
+import com.obsidian.client.module.impl.HeldItemDurabilityModule;
+import com.obsidian.client.module.impl.HitFlashModule;
+import com.obsidian.client.module.impl.HitSoundModule;
+import com.obsidian.client.module.impl.HungerDisplayModule;
 import com.obsidian.client.module.impl.KeystrokesModule;
+import com.obsidian.client.module.impl.LightLevelModule;
+import com.obsidian.client.module.impl.LowHealthWarningModule;
 import com.obsidian.client.module.impl.MemoryUsageModule;
+import com.obsidian.client.module.impl.MovementStatusModule;
 import com.obsidian.client.module.impl.PingDisplayModule;
 import com.obsidian.client.module.impl.PotionEffectsHudModule;
+import com.obsidian.client.module.impl.SessionTimerModule;
+import com.obsidian.client.module.impl.SpeedDisplayModule;
+import com.obsidian.client.module.impl.TargetBlockInfoModule;
 import com.obsidian.client.module.impl.ToggleSneakModule;
 import com.obsidian.client.module.impl.ToggleSprintModule;
 import com.obsidian.client.module.impl.ZoomModule;
@@ -91,13 +112,21 @@ public class ObsidianClientModClient implements ClientModInitializer {
 
 		ClientLifecycleEvents.CLIENT_STOPPING.register(client -> ConfigManager.save(MODULE_MANAGER));
 
-		// Feeds landed attacks into Combo Counter without granting it (or any future
-		// module) any influence over hit registration: we only ever return PASS.
+		// Feeds landed attacks into Combo Counter/Hit Flash/Hit Sound Cue without granting any
+		// of them (or any future module) influence over hit registration: we only ever return PASS.
 		AttackEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> {
 			if (world.isClientSide()) {
 				ComboCounterModule combo = MODULE_MANAGER.getModule(ComboCounterModule.class);
 				if (combo != null && combo.isEnabled()) {
 					combo.onHitLanded();
+				}
+				HitFlashModule hitFlash = MODULE_MANAGER.getModule(HitFlashModule.class);
+				if (hitFlash != null && hitFlash.isEnabled()) {
+					hitFlash.onHitLanded();
+				}
+				HitSoundModule hitSound = MODULE_MANAGER.getModule(HitSoundModule.class);
+				if (hitSound != null && hitSound.isEnabled()) {
+					hitSound.onHitLanded();
 				}
 			}
 			return InteractionResult.PASS;
@@ -123,5 +152,26 @@ public class ObsidianClientModClient implements ClientModInitializer {
 		MODULE_MANAGER.register(new ClockModule());
 		MODULE_MANAGER.register(new ZoomModule());
 		MODULE_MANAGER.register(new CrosshairModule());
+		MODULE_MANAGER.register(new HealthDisplayModule());
+		MODULE_MANAGER.register(new HungerDisplayModule());
+		MODULE_MANAGER.register(new ExperienceTrackerModule());
+		MODULE_MANAGER.register(new FallDistanceModule());
+		MODULE_MANAGER.register(new LightLevelModule());
+		MODULE_MANAGER.register(new BiomeDisplayModule());
+		MODULE_MANAGER.register(new DayTimeTrackerModule());
+		MODULE_MANAGER.register(new SpeedDisplayModule());
+		MODULE_MANAGER.register(new SessionTimerModule());
+		MODULE_MANAGER.register(new DeathCounterModule());
+		MODULE_MANAGER.register(new DistanceTraveledModule());
+		MODULE_MANAGER.register(new TargetBlockInfoModule());
+		MODULE_MANAGER.register(new HeldItemDurabilityModule());
+		MODULE_MANAGER.register(new MovementStatusModule());
+		MODULE_MANAGER.register(new AutoSneakWhileMiningModule());
+		MODULE_MANAGER.register(new AttackCooldownModule());
+		MODULE_MANAGER.register(new HitFlashModule());
+		MODULE_MANAGER.register(new HitSoundModule());
+		MODULE_MANAGER.register(new LowHealthWarningModule());
+		MODULE_MANAGER.register(new CompassBarModule());
+		MODULE_MANAGER.register(new FpsMinMaxModule());
 	}
 }
