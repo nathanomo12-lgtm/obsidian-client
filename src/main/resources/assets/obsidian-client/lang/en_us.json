@@ -9,5 +9,11 @@
   "key.obsidian-client.toggle_sprint": "Toggle Sprint",
   "key.obsidian-client.toggle_sneak": "Toggle Sneak",
   "key.obsidian-client.coordinates": "Toggle Coordinates",
-  "key.obsidian-client.armor_status": "Toggle Armor Status"
+  "key.obsidian-client.armor_status": "Toggle Armor Status",
+  "key.obsidian-client.combo_counter": "Toggle Combo Counter",
+  "key.obsidian-client.potion_effects": "Toggle Potion Effects",
+  "key.obsidian-client.memory_usage": "Toggle Memory Usage",
+  "key.obsidian-client.clock": "Toggle Clock",
+  "key.obsidian-client.zoom": "Toggle Zoom",
+  "key.obsidian-client.crosshair": "Toggle Crosshair"
 }

@@ -8,7 +8,8 @@ public enum ModuleCategory {
 	MOVEMENT("Movement"),
 	RENDER("Render"),
 	UTILITY("Utility"),
-	PLAYER("Player");
+	PLAYER("Player"),
+	PERFORMANCE("Performance");
 
 	private final String displayName;
 

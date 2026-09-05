@@ -1,10 +1,11 @@
 package com.obsidian.client.module.impl;
 
 import com.obsidian.client.ObsidianClientMod;
+import com.obsidian.client.module.ComplianceTier;
 import com.obsidian.client.module.Module;
 import com.obsidian.client.module.ModuleCategory;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import org.lwjgl.glfw.GLFW;
 
 /**
@@ -19,7 +20,7 @@ public class ExampleModule extends Module {
 	private int ticksEnabled;
 
 	public ExampleModule() {
-		super("Example", "Reference module demonstrating the module lifecycle.", ModuleCategory.UTILITY, GLFW.GLFW_KEY_UNKNOWN);
+		super("Example", "Reference module demonstrating the module lifecycle.", ModuleCategory.UTILITY, ComplianceTier.SAFE, GLFW.GLFW_KEY_UNKNOWN);
 	}
 
 	@Override
@@ -39,11 +40,11 @@ public class ExampleModule extends Module {
 	}
 
 	@Override
-	public void onRender(DrawContext context, float tickDelta) {
-		MinecraftClient client = MinecraftClient.getInstance();
+	public void onRender(GuiGraphics context, float tickDelta) {
+		Minecraft client = Minecraft.getInstance();
 		if (client.player == null) {
 			return;
 		}
-		context.drawText(client.textRenderer, "Obsidian Client (" + ticksEnabled + "t)", 4, 4, 0xFFFFFF, true);
+		context.drawString(client.font, "Obsidian Client (" + ticksEnabled + "t)", 4, 4, 0xFFFFFF, true);
 	}
 }
